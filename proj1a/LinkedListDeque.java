@@ -12,7 +12,7 @@ public class LinkedListDeque<E> {
 
         /** Creates a new ListNode. */
         ListNode(E e) {
-            new ListNode<>(e, null, null);
+            new ListNode<E>(e, null, null);
         }
 
         /** Creates a new ListNode with given next and prev. */
@@ -28,7 +28,7 @@ public class LinkedListDeque<E> {
 
     /** Creates an empty list. */
     public LinkedListDeque() {
-        sentinel = new ListNode<>(null);
+        sentinel = new ListNode<E>(null);
         sentinel.next = sentinel;
         sentinel.prev = sentinel;
     }
@@ -73,11 +73,10 @@ public class LinkedListDeque<E> {
      *  If no such item exists, returns null.
      */
     public E removeFirst() {
-        if (size == 0) {
+        if (isEmpty()) {
             return null;
         }
         E item = (E) sentinel.next.data;
-        sentinel.next.data = null;
         sentinel.next.next.prev = sentinel;
         sentinel.next = sentinel.next.next;
         size--;
@@ -88,11 +87,10 @@ public class LinkedListDeque<E> {
      *  If no such item exists, returns null.
      */
     public E removeLast() {
-        if (size == 0) {
+        if (isEmpty()) {
             return null;
         }
         E item = (E) sentinel.prev.data;
-        sentinel.prev.data = null;
         sentinel.prev.prev.next = sentinel;
         sentinel.prev = sentinel.prev.prev;
         size--;
@@ -103,7 +101,7 @@ public class LinkedListDeque<E> {
      *  If no such item exists, returns null.
      */
     public E get(int index) {
-        if (index >= size) {
+        if (index < 0 || index >= size) {
             return null;
         }
         ListNode ptr = sentinel;
@@ -115,7 +113,7 @@ public class LinkedListDeque<E> {
 
     /** Same as get function, but uses recursion. */
     public E getRecursive(int index) {
-        if (index >= size) {
+        if (index < 0 || index >= size) {
             return null;
         }
         return (E) getRecursive(index, sentinel.next).data;
