@@ -3,10 +3,7 @@ public class ArrayDeque<E> {
     private int head;
     private int tail;
     private int size;
-    private double loadFactor;
     private final static int DEFAULT_SIZE = 8;
-
-    public double getLoadFactor() { return (double) size / elements.length; }
 
     /** Creates an empty list. */
     public ArrayDeque() {
@@ -14,7 +11,6 @@ public class ArrayDeque<E> {
         size = 0;
         head = 0;
         tail = 1;
-        loadFactor = 0;
     }
 
     /** Adds an item to the front of the Deque. */

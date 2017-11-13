@@ -120,30 +120,30 @@ public class ArrayDequeTest {
         printTestStatus(passed);
     }
 
-    public static void resizeTest() {
-        System.out.println("Running resize test.");
-        ArrayDeque<Integer> arrayList = new ArrayDeque<>();
-        boolean passed = true;
-        for (int i = 0; i <= 32; i++) {
-            arrayList.addLast(i);
-            System.out.print(arrayList.getLoadFactor() + " ");
-        }
-        System.out.println();
-        for (int i = 0; i <= 32; i++) {
-            arrayList.removeLast();
-            System.out.print(arrayList.getLoadFactor() + " ");
-        }
-        System.out.println();
-        System.out.println("Printing out deque: ");
-        arrayList.printDeque();
-
-        printTestStatus(passed);
-    }
+//    public static void resizeTest() {
+//        System.out.println("Running resize test.");
+//        ArrayDeque<Integer> arrayList = new ArrayDeque<>();
+//        boolean passed = true;
+//        for (int i = 0; i <= 32; i++) {
+//            arrayList.addLast(i);
+//            System.out.print(arrayList.getLoadFactor() + " ");
+//        }
+//        System.out.println();
+//        for (int i = 0; i <= 32; i++) {
+//            arrayList.removeLast();
+//            System.out.print(arrayList.getLoadFactor() + " ");
+//        }
+//        System.out.println();
+//        System.out.println("Printing out deque: ");
+//        arrayList.printDeque();
+//
+//        printTestStatus(passed);
+//    }
 
     public static void main(String[] args) {
         System.out.println("Running tests.\n");
         addIsEmptySizeTest();
         removeGetTest();
-        resizeTest();
+        //resizeTest();
     }
 } 
