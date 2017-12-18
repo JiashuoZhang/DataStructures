@@ -5,10 +5,10 @@
 public class LinkedListDeque<E> {
 
     /** A ListNode class used by the doubly linked list. */
-    private static class ListNode<E> {
-        E data;
-        ListNode next;
-        ListNode prev;
+    private class ListNode<E> {
+        private E data;
+        private ListNode next;
+        private ListNode prev;
 
         /** Creates a new ListNode. */
         ListNode(E e) {
