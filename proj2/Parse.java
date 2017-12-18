@@ -2,12 +2,13 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 import java.util.StringJoiner;
+import java.util.Scanner;
 
 public class Parse {
     // Various common constructs, simplifies parsing.
-    private static final String REST  = "\\s*(.*)\\s*",
-                                COMMA = "\\s*,\\s*",
-                                AND   = "\\s+and\\s+";
+    private static final String REST  = "\\s*(.*)\\s*", // spaces + any chars + spaces
+                                COMMA = "\\s*,\\s*",    // spaces + , + spaces
+                                AND   = "\\s+and\\s+";  // 1 or more spaces + and + 1 or more spaces
 
     // Stage 1 syntax, contains the command name.
     private static final Pattern CREATE_CMD = Pattern.compile("create table " + REST),
@@ -31,12 +32,18 @@ public class Parse {
                                                "\\s*(?:,\\s*.+?\\s*)*)");
 
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        while (sc.hasNextLine()) {
+            String query = sc.nextLine();
+            eval(query);
+        }
         if (args.length != 1) {
             System.err.println("Expected a single query argument");
             return;
         }
 
         eval(args[0]);
+
     }
 
     private static void eval(String query) {
