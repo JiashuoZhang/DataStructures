@@ -11,8 +11,8 @@ public class RowTest {
     Row row1 = new Row(attr);
     Row row2 = new Row(attr);
 
-    String values1 = "2, 5, lebron james, josh zhang, 3.2";
-    String values2 = "3, 6, james harden, krystal, 2.6799";
+    String values1 = "2, 5, 'lebron james', 'josh zhang', 3.2";
+    String values2 = "3, 6, 'james harden', 'krystal', 2.6799";
 
     @Test
     public void testAdd() throws Exception {

@@ -15,11 +15,11 @@ public class AttributesTest {
 
     @Test
     public void testGet() throws Exception {
-        assertEquals("int", attr.get(0));
-        assertEquals("int", attr.get(1));
-        assertEquals("string", attr.get(2));
-        assertEquals("string", attr.get(3));
-        assertEquals("float", attr.get(4));
+        assertEquals("int", attr.types[0]);
+        assertEquals("int", attr.types[1]);
+        assertEquals("string", attr.types[2]);
+        assertEquals("string", attr.types[3]);
+        assertEquals("float", attr.types[4]);
     }
 
     @Test

@@ -13,20 +13,30 @@ public class Row {
         this.values = new Value[attributes.size()];
     }
 
+    /**
+     * @exception IllegalArgumentException Number of values doesn't match or invalid values
+     * @param values
+     */
     void add(String values) {
         /* Split values by spaces. */
         String[] valuesArr = values.split(Parser.COMMA);
+        if (valuesArr.length != attr.size())
+            throw new IllegalArgumentException("Error: Values do not match columns.");
         /* Add each value for each attribute. */
         for (int i = 0; i < attr.size(); i++) {
-            String type = attr.get(i);
-            if (type.equals("int")) {
-                this.values[i] = new Value(Integer.parseInt(valuesArr[i]));
-            } else if (type.equals("string")) {
-                this.values[i] = new Value(valuesArr[i]);
-            } else if (type.equals("float")) {
-                this.values[i] = new Value(Float.parseFloat(valuesArr[i]));
-            }
+            Value val = new Value(attr.types[i]);
+            val.assignVal(valuesArr[i]);
+            this.values[i] = val;
         }
+    }
+
+    // check boundary!!
+    Value get(int i) {
+        return values[i];
+    }
+
+    int size() {
+        return values.length;
     }
 
     @Override

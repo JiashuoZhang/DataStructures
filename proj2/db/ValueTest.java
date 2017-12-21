@@ -11,7 +11,7 @@ public class ValueTest {
         Value v2 = new Value(2);
         Value v3 = new Value((float)3.0);
         Value v4 = new Value((float)4.1111);
-        Value v5 = new Value("hello");
+        Value v5 = new Value("'hello'");
         assertEquals("1", v1.toString());
         assertEquals("2", v2.toString());
         assertEquals("3.000", v3.toString());
