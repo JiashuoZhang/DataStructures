@@ -52,11 +52,7 @@ public class Database {
         String output = "";
         if ((m = CREATE_NEW.matcher(expr)).matches()) {
             if (map.containsKey(m.group(1))) return "Error: table already exists";
-            try {
-                createNewTable(m.group(1), m.group(2).split(COMMA));
-            } catch (IllegalArgumentException e) {
-                return e.getMessage();
-            }
+            return createNewTable(m.group(1), m.group(2).split(COMMA));
         } else if ((m = CREATE_SEL.matcher(expr)).matches()) {
 //            createSelectedTable(m.group(1), m.group(2), m.group(3), m.group(4));
         } else {
@@ -67,12 +63,19 @@ public class Database {
 
     /**
      * query: create table t1 (x int, y int, z int)
-     * @param name String <table name>
-     * @param cols String[] {<column0 name> <type0>, <column1 name> <type1>, ...}
+     * @param tableName String <table name>
+     * @param columns String[] {<column0 name> <type0>, <column1 name> <type1>, ...}
      */
-    private void createNewTable(String name, String[] cols) {
-        Table newTable = new Table(cols);
-        map.put(name, newTable);
+    private String createNewTable(String tableName, String[] columns) {
+        Table newTable;
+        try {
+            newTable = new Table(tableName);
+            newTable.setAttributes(columns);
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+        map.put(tableName, newTable);
+        return "";
     }
 
     /**
@@ -91,8 +94,6 @@ public class Database {
             return "";
         } catch (NumberFormatException e) {
             return e.getMessage();
-        } catch (IllegalArgumentException e) {
-            return e.getMessage();
         }
     }
 
@@ -101,11 +102,6 @@ public class Database {
      * @return empty String on success, or error message otherwise
      */
     private String storeTable(String tableName) {
-        if (map.containsKey(tableName)) {
-            TableWriter tableWriter = new TableWriter();
-            tableWriter.writeTable(tableName, map.get(tableName));
-            return "";
-        }
         return "Error: " + tableName + " does not exist";
     }
 
@@ -127,15 +123,11 @@ public class Database {
     private String insertRow(String expr) {
         Matcher m = INSERT_CLS.matcher(expr);
         if (!m.matches()) return "Malformed insert: " + expr;
-        // m.group(1) => table name; m.group(2) => vale1, value2, value3
+        if (!map.containsKey(m.group(1))) return "Error: " + m.group(1) + " does not exist";
+
         try {
-            if (!map.containsKey(m.group(1))) {
-                return "Error: " + m.group(1) + " does not exist";
-            }
-            map.get(m.group(1)).addRow(m.group(2));
-        } catch (NumberFormatException e) {
-            return "Error: invalid number values";
-        } catch (IllegalArgumentException e) {
+            map.get(m.group(1)).insertRow(m.group(2)); // m.group(1) = table name; m.group(2) = vale1, value2, value3
+        } catch (Exception e) {
             return e.getMessage();
         }
         return "";
@@ -157,19 +149,20 @@ public class Database {
 //        System.out.printf("You are trying to create a table named %s by selecting these expressions:" +
 //                " '%s' from the join of these tables: '%s', filtered by these conditions: '%s'\n", name, exprs, tables, conds);
 //    }
-    private static void select(String expr) {
+    private String select(String expr) {
         Matcher m = SELECT_CLS.matcher(expr);
         if (!m.matches()) {
-            System.err.printf("Malformed select: %s\n", expr);
-            return;
+            return "Error: malformed query select: " + expr;
         }
-
-        select(m.group(1), m.group(2), m.group(3));
+        return select(m.group(1), m.group(2), m.group(3));
     }
 
-    private static void select(String exprs, String tables, String conds) {
+    private String select(String exprs, String tables, String conds) {
+        String[] tablesArr = tables.split(COMMA);
+
         System.out.printf("You are trying to select these expressions:" +
                 " '%s' from the join of these tables: '%s', filtered by these conditions: '%s'\n", exprs, tables, conds);
+        return "";
     }
 
     public static class TestTheOuterClassPrivateMethods {

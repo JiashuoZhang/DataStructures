@@ -57,4 +57,10 @@ public class DatabaseTest {
         System.out.println(db.transact("print fans"));
     }
 
+    @Test
+    public void testSelect() {
+        System.out.println(db.transact("load fans"));
+        System.out.println(db.transact("load records"));
+        System.out.println(db.transact("select * from fans, records where x > 10 and y > 10"));
+    }
 }

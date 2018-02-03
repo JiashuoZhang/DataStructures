@@ -1,49 +1,39 @@
 package db;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringJoiner;
 
 public class Row {
     /* One row stores a fixed number of values corresponding to each type. */
-    private Value[] values;
-    /* Keep track of types. */
-    private Attributes attr;
+    private List<Value> values;
 
-    Row(Attributes attributes) {
-        this.attr = attributes;
-        this.values = new Value[attributes.size()];
+    Row() {
+        this.values = new ArrayList<>();
     }
 
     /**
      * @exception IllegalArgumentException Number of values doesn't match or invalid values
-     * @param values
      */
-    void add(String values) {
-        /* Split values by spaces. */
-        String[] valuesArr = values.split(Parser.COMMA);
-        if (valuesArr.length != attr.size())
-            throw new IllegalArgumentException("Error: Values do not match columns.");
-        /* Add each value for each attribute. */
-        for (int i = 0; i < attr.size(); i++) {
-            Value val = new Value(attr.types[i]);
-            val.assignVal(valuesArr[i]);
-            this.values[i] = val;
-        }
+
+    void add(Value val) {
+        values.add(val);
     }
 
-    // check boundary!!
+    // check boundary!
     Value get(int i) {
-        return values[i];
+        return values.get(i);
     }
 
     int size() {
-        return values.length;
+        return values.size();
     }
 
     @Override
     public String toString() {
         StringJoiner joiner = new StringJoiner(",");
-        for (int i = 0; i < values.length; i++) {
-            joiner.add(values[i].toString());
+        for (int i = 0; i < values.size(); i++) {
+            joiner.add(values.get(i).toString());
         }
         return joiner.toString();
     }
