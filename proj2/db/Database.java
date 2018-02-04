@@ -2,6 +2,7 @@ package db;
 
 import org.junit.Test;
 
+import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 
@@ -102,7 +103,17 @@ public class Database {
      * @return empty String on success, or error message otherwise
      */
     private String storeTable(String tableName) {
-        return "Error: " + tableName + " does not exist";
+        if (!map.containsKey(tableName)) return "Error: " + tableName + " does not exist";
+        try {
+            File file = new File(tableName + ".tbl");
+            FileWriter fileWriter = new FileWriter(file);
+            fileWriter.write(map.get(tableName).toString());
+            fileWriter.flush();
+            fileWriter.close();
+        } catch (IOException e) {
+            return e.getMessage();
+        }
+        return "";
     }
 
     /**

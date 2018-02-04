@@ -10,7 +10,7 @@ public class TableReader {
 
     TableReader(String fileName) {
         this.fileName = fileName;
-        In in = new In( "examples/" + fileName + ".tbl");
+        In in = new In( fileName + ".tbl");
         String line;
         if ((line = in.readLine()) != null) {
             if (ATTRIBUTES.matcher(line).matches()) {
