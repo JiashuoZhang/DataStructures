@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class Col {
+public class Col implements Cloneable {
     private int index;
     private List<Value> values;
 
@@ -14,6 +14,16 @@ public class Col {
 
     void add(Value val) {
         values.add(val);
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Col copy = (Col) super.clone();
+        copy.values = new ArrayList<>();
+        for (Value val : this.values) {
+            copy.values.add((Value)val.clone());
+        }
+        return copy;
     }
 
     @Override

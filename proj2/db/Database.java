@@ -33,7 +33,7 @@ public class Database {
         } else if ((m = PRINT_CMD.matcher(query)).matches()) {
             output = printTable(m.group(1));
         } else if ((m = SELECT_CMD.matcher(query)).matches()) {
-            select(m.group(1));
+            output = select(m.group(1));
         } else {
             output = "Error: malformed query " + query;
         }
@@ -154,12 +154,11 @@ public class Database {
         return map.get(tableName).toString();
     }
 
+    /**
+     * select <column expr0>,<column expr1>,... from <table0>,<table1>,... where <cond0> and <cond1> and ...
+     *
+     */
 
-//    /* create table t1 as select * from t2 */
-//    private void createSelectedTable(String name, String exprs, String tables, String conds) {
-//        System.out.printf("You are trying to create a table named %s by selecting these expressions:" +
-//                " '%s' from the join of these tables: '%s', filtered by these conditions: '%s'\n", name, exprs, tables, conds);
-//    }
     private String select(String expr) {
         Matcher m = SELECT_CLS.matcher(expr);
         if (!m.matches()) {
@@ -169,8 +168,14 @@ public class Database {
     }
 
     private String select(String exprs, String tables, String conds) {
-        String[] tablesArr = tables.split(COMMA);
-
+        String[] exprsArr = exprs.split(COMMA);
+        String[] tableArr = tables.split(COMMA);
+        String[] condsArr = conds == null ? null : conds.split("\\s+and\\s+");
+        for (String tableName : tableArr) if (!map.containsKey(tableName)) return tableName + "does not exist.";
+        Table resultTable = null;
+        for (String tableName : tableArr) {
+            resultTable = Table.join(resultTable, map.get(tableName));
+        }
         System.out.printf("You are trying to select these expressions:" +
                 " '%s' from the join of these tables: '%s', filtered by these conditions: '%s'\n", exprs, tables, conds);
         return "";

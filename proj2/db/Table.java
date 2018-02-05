@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class Table {
+public class Table implements Cloneable {
 
 //    List<Col> cols;
     private String tableName;
@@ -62,8 +62,44 @@ public class Table {
         rows.add(newRow);
     }
 
+    public static Table join(Table x, Table y) {
+        if (x == null && y == null) return null;
+        try {
+            if (x == null) return (Table)y.clone();
+            if (y == null) return (Table)x.clone();
+            List<String> commonAttributes = new ArrayList<>();
+            for (int i = 0; i < x.columnNames.size(); i++) {
+                if (y.columnNames.contains(x.columnNames.get(i))) {
+                    if (x.columnTypes.get(i).equals(y.columnTypes.get(y.columnNames.indexOf(x.columnNames.get(i))))) {
+                        commonAttributes.add(x.columnNames.get(i));
+                    }
+                }
+            }
+            if (!commonAttributes.isEmpty()) {
+                System.out.println(commonAttributes.toString());
+            } else {
+                // Cartesian product
+            }
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+        return null;
+    }
+
     String getTableName() {
         return this.tableName;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Table copy = (Table) super.clone();
+        copy.rows = new ArrayList<>();
+        copy.cols = new ArrayList<>();
+        copy.columnTypes = new ArrayList<>(this.columnTypes);
+        copy.columnNames = new ArrayList<>(this.columnNames);
+        for (Row row : this.rows) copy.rows.add((Row)row.clone());
+        for (Col col : this.cols) copy.cols.add((Col)col.clone());
+        return copy;
     }
 
     @Override

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class Row {
+public class Row implements Cloneable {
     /* One row stores a fixed number of values corresponding to each type. */
     private List<Value> values;
 
@@ -27,6 +27,16 @@ public class Row {
 
     int size() {
         return values.size();
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Row copy = (Row) super.clone();
+        copy.values = new ArrayList<>();
+        for (Value val : this.values) {
+            copy.values.add((Value)val.clone());
+        }
+        return copy;
     }
 
     @Override

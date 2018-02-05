@@ -18,5 +18,4 @@ public class ValueTest {
         assertEquals("4.111", v4.toString());
         assertEquals("'hello'", v5.toString());
     }
-
 }
