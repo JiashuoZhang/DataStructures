@@ -29,6 +29,27 @@ public class Row implements Cloneable {
         return values.size();
     }
 
+    public static Row combine(List<String> commonAttr, Table x, Table y, Row xRow, Row yRow) throws CloneNotSupportedException {
+        Row newRow = new Row();
+
+        for (String attr : commonAttr) {
+            newRow.add(xRow.get(x.indexOf(attr)));
+        }
+
+        for (int i = 0; i < xRow.size(); i++) {
+            if (!commonAttr.contains(x.getColName(i))) {
+                newRow.add(xRow.get(i));
+            }
+        }
+
+        for (int i = 0; i < yRow.size(); i++) {
+            if (!commonAttr.contains(y.getColName(i))) {
+                newRow.add(yRow.get(i));
+            }
+        }
+        return newRow;
+    }
+
     @Override
     public Object clone() throws CloneNotSupportedException {
         Row copy = (Row) super.clone();

@@ -45,6 +45,10 @@ public class Value implements Cloneable {
         return val;
     }
 
+    public String getType() {
+        return this.type;
+    }
+
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();

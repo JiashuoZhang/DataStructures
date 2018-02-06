@@ -93,7 +93,7 @@ public class Database {
             if (tableReader.getTable() == null) return "Error: failed to load table " + fileName;
             map.put(fileName, tableReader.getTable());
             return "";
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             return e.getMessage();
         }
     }
@@ -176,6 +176,7 @@ public class Database {
         for (String tableName : tableArr) {
             resultTable = Table.join(resultTable, map.get(tableName));
         }
+        System.out.println(resultTable.toString());
         System.out.printf("You are trying to select these expressions:" +
                 " '%s' from the join of these tables: '%s', filtered by these conditions: '%s'\n", exprs, tables, conds);
         return "";
